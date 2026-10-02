@@ -1,0 +1,64 @@
+name: Codeward AI Review
+description: AI code review and security scanning for pull requests with a multi-provider model selector.
+author: TerryLucy
+branding:
+  icon: shield
+  color: purple
+inputs:
+  github-token:
+    description: Token used to read the PR and post comments. Needs pull-requests:write and contents:read.
+    default: ${{ github.token }}
+  anthropic-api-key:
+    description: Anthropic API key.
+    required: false
+  openai-api-key:
+    description: OpenAI API key.
+    required: false
+  google-api-key:
+    description: Google Gemini API key.
+    required: false
+  openai-compatible-base-url:
+    description: Base URL of any OpenAI-compatible endpoint (OpenRouter, Azure OpenAI v1, vLLM, Ollama, LiteLLM).
+    required: false
+  openai-compatible-api-key:
+    description: API key for the OpenAI-compatible endpoint.
+    required: false
+  model:
+    description: Pin one model for every task (e.g. anthropic/claude-sonnet-4-5). Default is automatic selection.
+    required: false
+  review-model:
+    description: Pin the model for the general review pass.
+    required: false
+  security-model:
+    description: Pin the model for the security pass.
+    required: false
+  summary-model:
+    description: Pin the model for the summary.
+    required: false
+  quality:
+    description: "Selector preset: economy | balanced | max."
+    required: false
+  fail-on:
+    description: "Fail the job when findings reach this severity: info|low|medium|high|critical|none."
+    required: false
+  min-severity:
+    description: Minimum severity to post as inline comments.
+    required: false
+  sarif:
+    description: Upload security findings to GitHub code scanning (needs security-events:write).
+    required: false
+  pull-number:
+    description: PR number to review on workflow_dispatch.
+    required: false
+outputs:
+  verdict:
+    description: approve | comment | request_changes | skipped
+  findings:
+    description: Number of findings posted.
+  cost-usd:
+    description: Estimated model spend for this run.
+  summary-url:
+    description: URL of the summary comment.
+runs:
+  using: node24
+  main: dist/action/index.js

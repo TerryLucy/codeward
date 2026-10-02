@@ -1,0 +1,18 @@
+# GitHub App manifest. Create the app from this file:
+# https://docs.github.com/en/apps/sharing-github-apps/registering-a-github-app-from-a-manifest
+name: Codeward
+url: https://github.com/TerryLucy/codeward
+hook_attributes:
+  url: https://YOUR-HOST/api/github/webhooks
+redirect_url: https://YOUR-HOST/
+public: false
+default_permissions:
+  contents: read
+  metadata: read
+  pull_requests: write
+  issues: write
+  checks: write
+  security_events: write
+default_events:
+  - pull_request
+  - issue_comment

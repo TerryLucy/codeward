@@ -1,0 +1,39 @@
+{
+  "name": "codeward",
+  "version": "0.1.0",
+  "description": "AI code review & security platform that runs natively in GitHub (Action + App) with a pluggable multi-provider model selector.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "bin": {
+    "codeward": "dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "start:app": "node dist/app/index.js",
+    "check": "npm run typecheck && npm run lint && npm test"
+  },
+  "dependencies": {
+    "@actions/core": "3.0.1",
+    "@octokit/app": "16.1.4",
+    "@octokit/rest": "22.0.1",
+    "@octokit/webhooks": "14.2.0",
+    "picomatch": "4.0.7",
+    "yaml": "2.9.1",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.13.6",
+    "@types/picomatch": "4.0.3",
+    "esbuild": "0.28.2",
+    "eslint": "10.10.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.0"
+  }
+}
