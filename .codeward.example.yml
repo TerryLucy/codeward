@@ -1,0 +1,43 @@
+# Copy to .codeward.yml (or .github/codeward.yml). Read from the PR's BASE branch,
+# so a pull request cannot weaken its own review. Every key is optional.
+
+models:
+  quality: balanced            # economy | balanced | max — shifts the tier the selector aims for
+  review: auto                 # "auto", one id, or an ordered fallback list
+  security: auto               # e.g. [anthropic/claude-opus-4-1, openai/gpt-5]
+  summary: auto
+  providers: [anthropic, openai, google, openai-compatible]   # allowlist + preference order
+  # openaiCompatible:
+  #   baseUrl: https://openrouter.ai/api/v1
+  #   apiKeyEnv: OPENROUTER_API_KEY
+  # catalog:                   # add or override models (prices are USD per 1M tokens)
+  #   - id: openai-compatible/qwen/qwen3-coder
+  #     provider: openai-compatible
+  #     name: qwen/qwen3-coder
+  #     tier: balanced
+  #     contextWindow: 262144
+  #     inputCostPerMTok: 0.4
+  #     outputCostPerMTok: 1.6
+
+review:
+  enabled: true                # general code review pass
+  security: true               # dedicated security pass
+  secretScan: true             # deterministic secret detection
+  minSeverity: low             # lowest severity posted inline
+  failOn: high                 # job/check fails at this severity ("none" to never fail)
+  minConfidence: 0.5
+  maxComments: 25
+  maxCostUsd: 2                # hard budget per review run
+  incremental: true            # on new pushes, review only the new commits
+  skipDrafts: true
+  skipLabels: [no-ai-review]
+  exclude: ["docs/**"]
+  instructions: |
+    We use Result types instead of exceptions in src/core.
+    Flag any new endpoint missing the requireAuth middleware.
+
+output:
+  inlineComments: true
+  summaryComment: true
+  checkRun: true               # GitHub App mode
+  sarif: false                 # upload security findings to code scanning
